@@ -10,8 +10,10 @@ public partial class Generator : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		gameState = GetTree().Root.GetNode<Gamestate>("RootNameNode");
 		gameState.switchCharge += launchCharge;
 		_turbine = this.GetChild<MeshInstance3D>(1);
+		
 	}
 
 	private void launchCharge(bool _state)
