@@ -45,6 +45,8 @@ ambient_light_energy = 0.0
 [node name="Breadboard" type="Node3D" unique_id=1673520043 node_paths=PackedStringArray("debugText")]
 script = ExtResource("1_gu372")
 debugText = NodePath("DebugText")
+maxWanderRadius = 5.0
+decomposeTime = 3.0
 generatorTorque = 10.0
 generatorCooldown = 1.8
 maxCharge = 6.0
@@ -242,6 +244,7 @@ mesh = ExtResource("6_x7s61")
 skeleton = NodePath("../..")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Cultist" unique_id=2072463626]
+avoidance_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1473248361]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 1.1866503, 4.7345786, 3.5017838)

@@ -11,6 +11,7 @@ public enum GameMode
 public partial class Gamestate : Node
 {
 	[Export] public Label debugText;
+	[Export] public float maxWanderRadius;
 	[Export] public float decomposeTime;
 	[Export] public float generatorTorque;
 	[Export] public float generatorCooldown;

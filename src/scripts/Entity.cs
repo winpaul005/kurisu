@@ -33,12 +33,15 @@ public partial class Entity : CharacterBody3D, IEntity
 	protected float movementCooldown;
 	public override void _Ready()
 	{
-		gameState = GetTree().Root.GetNode("Breadboard") as Gamestate;
+		gameState = GetTree().CurrentScene as Gamestate;
 		if(this as Player == null)
 		{
+			_scheme = BehaviourScheme.Wander;
 			_decomposeTimeline = gameState.decomposeTime;
 			_navigationAgent = GetChild<NavigationAgent3D>(2);
 			_navigationAgent.VelocityComputed += OnVelocityComputed;
+			if(_scheme == BehaviourScheme.Wander)
+				_navigationAgent.TargetPosition = new Vector3(this.Position.X+(float)GD.RandRange(1f,gameState.maxWanderRadius),this.Position.Y,this.Position.Z+(float)GD.RandRange(1f,gameState.maxWanderRadius));
 		}
 		isDead = false;
 	}
@@ -50,36 +53,47 @@ public partial class Entity : CharacterBody3D, IEntity
 	{
 		velocity = safeVelocity; 
 	}
-	// public override void _Process(double delta)
-	// {
-	//     if(this as Player==null)
-	// 	{
-	// 		switch(_scheme)
-	// 		{
-	// 			case BehaviourScheme.Wander:
-
-	// 			break;
-	// 		}
-	// 	}
-	// }
 
 	public override void _PhysicsProcess(double delta)
 	{
 		velocity = Velocity;
+
 		if(this as Player ==null)
 		{
-			if(targetPos!=null)
+			if(_navigationAgent.IsNavigationFinished())
+			{
+				velocity = Vector3.Zero;
+				GD.Print(movementCooldown);
+				movementCooldown-=(float)delta;
+				if(movementCooldown<=0.0f)
+				{
+					targetPos = new Vector3(this.Position.X+(float)GD.RandRange(-1*gameState.maxWanderRadius,gameState.maxWanderRadius),this.Position.Y,this.Position.Z+(float)GD.RandRange(-1*gameState.maxWanderRadius,gameState.maxWanderRadius));
+					_navigationAgent.TargetPosition = (Vector3)targetPos;
+				}
+			}
+			else
 			{
 				
+				targetPos = _navigationAgent.GetNextPathPosition();
+				velocity = this.Position.DirectionTo((Vector3)targetPos) * Speed;
+				GD.Print(targetPos, velocity);
+				movementCooldown = 3.0f;
 			}
+			if (!IsOnFloor())
+			{
+				velocity += GetGravity() * (float)delta;
+			}
+			Velocity = velocity;
+			MoveAndSlide();
+			return;
 		}
 
 		// Add the gravity.
+
 		if (!IsOnFloor())
 		{
 			velocity += GetGravity() * (float)delta;
 		}
-
 		// Handle Jump.
 		if (Input.IsActionJustPressed("jump") && IsOnFloor())
 		{
