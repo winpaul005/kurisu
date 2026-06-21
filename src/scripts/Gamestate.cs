@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 public enum GameMode
 {
 	MainMenu,
@@ -9,6 +10,8 @@ public enum GameMode
 
 public partial class Gamestate : Node
 {
+	[Export] public Label debugText;
+	[Export] public float decomposeTime;
 	[Export] public float generatorTorque;
 	[Export] public float generatorCooldown;
 	[Export] public float maxCharge;
@@ -24,6 +27,7 @@ public partial class Gamestate : Node
 	public SwitchGamemodeHandler SwitchGamemode;
 	private float _currentCharge;
 	private bool _isOn;
+	private List<ISwitchSensible> switchSensible = new List<ISwitchSensible>();
 	public bool isOn()=> _isOn;
 	//Required for UI
 	public float currentCharge() => _currentCharge;
@@ -32,23 +36,34 @@ public partial class Gamestate : Node
 	{
 		this._currentCharge = maxCharge;
 		SwitchGamemode += SelectGamemode;
-		SwitchGamemode(this.currentGamemode);
+		switchCharge += SwitchChargeVoid;
+		
 	}
 	public void Init(Player _player)
 	{
 		this._playerInstance = _player;
-		switchCharge += SwitchChargeVoid;
+		foreach(var child in this.GetChildren())
+		{
+			if(child as ISwitchSensible !=null)
+			{
+				child.AddToGroup("switchers");
+				GD.Print($"Added {child} to switchers");
+			}
+		}
+		_isOn = true;
 	}
 
-    private void SwitchChargeVoid(bool _state)
-    {
-        _isOn = _state;
-    }
+	private void SwitchChargeVoid(bool _state)
+	{
+		_isOn = _state;
+		_currentCharge = _isOn?maxCharge:0.0f;
+		GetTree().CallGroup("switchers","Switch",_state);
+	}
 
 
-    private void SelectGamemode(GameMode _currentGamemode)
-    {
-        this.currentGamemode = _currentGamemode;
+	private void SelectGamemode(GameMode _currentGamemode)
+	{
+		this.currentGamemode = _currentGamemode;
 		switch(this.currentGamemode)
 		{
 			case(GameMode.EditMode):
@@ -59,11 +74,23 @@ public partial class Gamestate : Node
 			break;
 		}
 		SwitchGamemode(this.currentGamemode);
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+	}
+	public void UpdateDebug()
 	{
-		
+		string _chargeVal = _currentCharge>0?_currentCharge.ToString():"OUT";
+		debugText.Text = $"Charge:{_chargeVal}\nHealth: {_playerInstance.GetHealth()}";
+	}
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		if(debugText!=null)
+			UpdateDebug();
+		if(_currentCharge>0.0f)
+		{
+			_currentCharge-= (float)delta;
+		}
+		else
+			if (_isOn)
+				switchCharge(false);
 	}
 }
