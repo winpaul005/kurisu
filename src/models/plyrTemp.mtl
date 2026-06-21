@@ -1,0 +1,72 @@
+# Blender 5.0.1 MTL File: 'kit_blyatv2.blend'
+# www.blender.org
+
+newmtl Eye
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
+
+newmtl Fur_
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
+
+newmtl Fur_.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
+
+newmtl Hair_
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
+
+newmtl Jumpsuit_
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
+
+newmtl Mouth
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
+
+newmtl Whiskers
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
+map_d C:/Users/farla/OneDrive/Documents/A4-0N/kit-tx.png
